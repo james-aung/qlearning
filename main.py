@@ -1,4 +1,4 @@
-import gym
+import gymnasium as gym
 from dqn import Agent
 from utils import plot_learning_curve
 import numpy as np
@@ -11,17 +11,20 @@ if __name__ == '__main__':
     n_games = 500
 
     for i in range(n_games):
-        scores = 0 
+        score = 0 
         done = False
-        observation = env.reset()
+        observation, _ = env.reset()
         while not done:
+            # print(type(observation))
             action = agent.choose_action(observation)
-            observation_, reward, done, info = env.step(action)
-            scores += reward
-            agent.store_transition(observation, action, reward, observation_, done)
+            observation_, reward, terminated, truncated, info = env.step(action)
+            done = terminated or truncated
+            score += reward
+            # print(observation)
+            agent.store_transition(action, observation, reward, observation_, done)
             agent.learn()
             observation = observation_
-        scores.append(scores)
+        scores.append(score)
         eps_history.append(agent.epsilon)
 
         avg_score = np.mean(scores[-100:])
