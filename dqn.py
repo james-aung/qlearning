@@ -11,7 +11,7 @@ class DQN(nn.Module):
         self.lr = lr
         self.n_actions = n_actions
         self.input_dims = input_dims
-        print(self.input_dims) # TODO cleanup
+        # print(self.input_dims) # TODO cleanup
         self.fc1_dims = fc1_dims
         self.fc2_dims = fc2_dims
 
@@ -87,7 +87,6 @@ class Agent():
         else:
             # take random action epsilon % of the time
             action = np.random.choice(self.action_space)
-
         return action
     
     def learn(self):
